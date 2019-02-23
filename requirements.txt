@@ -1,0 +1,2 @@
+google-cloud-bigquery==1.9.0
+google-cloud-vision==0.35.2
