@@ -33,7 +33,6 @@ def logout_user:
 # Handle action to extract data from a business card picture
 @app.route('/extract', methods=["POST"])
 def extract_text:
-    return 
 
 if __name__ == '__main__':
     app.run()
