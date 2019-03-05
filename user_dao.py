@@ -12,3 +12,8 @@ class User(db):
     last_name     = Column(String)
     email         = Column(String)
     date_created  = Column(DateTime)
+
+    # String representation of this object
+    def __repr__(self):
+        return "<User(username = '%s', full name = '%s %s', email = '%s')>" \
+        % (self.username, self.first_name, self.last_name, self.email)
