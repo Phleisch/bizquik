@@ -1,8 +1,21 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 import sys
+import json
+import os
 
 app = Flask(__name__)
+
+db = SQLAlchemy()
+
+with open('db_configuration.json') as db_configuration:
+    db_config = json.load(db_configuration)
+
+app.config['DEBUG'] = True
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://' + db_config['username'] + \
+':' + db_config['password'] + '@' + db_config['host'] + '/' + db_config['database']
+db.init_app(app)
+
 
 # Error Functions / Handling
 
