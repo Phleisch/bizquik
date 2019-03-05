@@ -1,4 +1,5 @@
 *.config
 *.cred
 *.json
+log
 serviceaccountkey

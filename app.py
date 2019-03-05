@@ -22,7 +22,7 @@ error_functions = {404: page_not_found, 405: bad_method}
 @app.errorhandler(Exception)
 def handle_error(error):
     error_code = error.code
-
+    print(error, sys.stderr)
     for code in error_functions:
         if code == error_code:
             return error_functions[code]()
