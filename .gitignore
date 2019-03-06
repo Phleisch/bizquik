@@ -1,5 +1,6 @@
 *.config
 *.cred
 *.json
+*.pyc
 log
 serviceaccountkey
