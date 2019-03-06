@@ -1,21 +1,20 @@
 from flask import Flask, render_template, request
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
 import sys
 import json
-import os
+from user_dao import User
+from base import Base, engine, Session
 
 app = Flask(__name__)
 
-with open('db_configuration.json') as db_configuration:
-    db_config = json.load(db_configuration)
+# Create mapping from python classes to database tables
+Base.metadata.create_all(engine)
+session = Session()
 
-conn_string = 'postgresql://' + db_config['username'] + ':' \
-    + db_config['password'] + '@' + db_config['host'] + '/' \
-    + db_config['database']
-
-engine = create_engine(conn_string)
-Base = declarative_base()
+def db_test():
+    print (User.__table__, sys.stderr)
+    users = session.query(User)
+    for user in users:
+        print (user)
 
 # Error Functions / Handling
 
@@ -91,3 +90,4 @@ def extract_text():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
+    db_test()
