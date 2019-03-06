@@ -1,21 +1,21 @@
 from flask import Flask, render_template, request
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
 import sys
 import json
 import os
 
 app = Flask(__name__)
 
-db = SQLAlchemy()
-
 with open('db_configuration.json') as db_configuration:
     db_config = json.load(db_configuration)
 
-app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://' + db_config['username'] + \
-':' + db_config['password'] + '@' + db_config['host'] + '/' + db_config['database']
-db.init_app(app)
+conn_string = 'postgresql://' + db_config['username'] + ':' \
+    + db_config['password'] + '@' + db_config['host'] + '/' \
+    + db_config['database']
 
+engine = create_engine(conn_string)
+Base = declarative_base()
 
 # Error Functions / Handling
 
@@ -68,7 +68,7 @@ def user_action(username):
         return "POST user_action"
     elif request.method == 'DELETE':
         return "DELETE user_action"
-    
+
     # We should not have gotten here
     raise ValueError()
 
