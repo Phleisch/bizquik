@@ -1,7 +1,9 @@
 # Database Access Object for the users table of bizquik's database
 from sqlalchemy import Column, DateTime, Integer, String
+from sqlalchemy.sql import func
+from base import Base
 
-class User(db):
+class User(Base):
     __tablename__ = 'users'
 
     id              = Column(Integer, primary_key=True)
@@ -11,7 +13,9 @@ class User(db):
     first_name      = Column(String(100))
     last_name       = Column(String(100))
     email           = Column(String(255))
-    date_created    = Column(DateTime)
+
+    # The server handles time stamping for when a user object is added to users
+    date_created    = Column(DateTime, server_default=func.now())
 
     def __init__(self, username, password_raw, first_name, last_name, email):
         self.username       = username
