@@ -29,3 +29,11 @@ class User(Base):
     def __repr__(self):
         return "<User(username = '%s', full name = '%s %s', email = '%s')>" \
             % (self.username, self.first_name, self.last_name, self.email)
+
+# Return whether or not the given username is unique within the users table
+def user_is_unique(name, session):
+    # Check each username in the 'users' table against the username passed.
+    # Usernames are case insensitive
+    first_result = session.query(User).filter(func.lower(User.username) \
+                    == name).first()
+    return first_result == None
