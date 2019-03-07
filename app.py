@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import sys
 import json
-from user_dao import User
+from user_dao import User, user_is_unique
 from base import Base, engine, Session
 
 app = Flask(__name__)
@@ -43,6 +43,20 @@ def handle_error(error):
     return default_error()
 
 # Miscellaneous
+
+# Username uniqueness database test
+@app.route('/unique', methods=["GET", "POST"])
+def get_unique():
+    if request.method == 'GET':
+        return render_template('unique.html')
+
+    elif request.method == 'POST':
+        unique = user_is_unique(request.form['username'].lower(), session)
+        if unique:
+            return "Unique username!"
+        return "Not a unique username..."
+
+    return "Error"
 
 # Home page
 @app.route('/', methods=["GET"])
@@ -90,4 +104,3 @@ def extract_text():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
-    db_test()
