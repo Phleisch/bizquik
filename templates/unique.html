@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-	Aerial by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
   <head>
     <title>Bizquik</title>
@@ -12,15 +7,44 @@
       name="viewport"
       content="width=device-width, initial-scale=1, user-scalable=no"
     />
-    <link rel="stylesheet" href="assets/css/main.css" />
-    <noscript><link rel="stylesheet" href="assets/css/noscript.css"/></noscript>
+    <link rel="stylesheet" href="../static/styles/unique.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
 
   <body>
-    <form method="post">
+    <form class="uniqueness-form" action="/unique" method="post" role="form">
         Username:<br>
-        <input type="text" name="username"><br>
-        <input type="submit" value="Submit">
+        <input type="text" name="username" id="usernamebox"><br>
+        <button type="button" id="submit-button">Submit</button>
     </form>
+
+    <script>
+        $(function(){
+
+            $('#submit-button').click(function() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/unique',
+                    contentType: 'application/json',
+                    data: JSON.stringify({'username': $('input[name="username"]').val()}),
+                    success: function(response) {
+                        var result = response.status;
+
+                        if (result === "OK") {
+                            $("#usernamebox").css("border", "1px solid green");
+                        } else {
+                            $("#usernamebox").css("border", "1px solid red");
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+
+                console.log("Hello?");
+            });
+        });
+    </script>
+
   </body>
 </html>
