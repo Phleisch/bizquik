@@ -53,8 +53,8 @@ def get_unique():
     elif request.method == 'POST':
         unique = user_is_unique(request.form['username'].lower(), session)
         if unique:
-            return "Unique username!"
-        return "Not a unique username..."
+            return "200"
+        return "412 - Not a unique username"
 
     return "Error"
 
