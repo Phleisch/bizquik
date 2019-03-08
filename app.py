@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import sys
 import json
 from user_dao import User, user_is_unique
@@ -51,10 +51,11 @@ def get_unique():
         return render_template('unique.html')
 
     elif request.method == 'POST':
-        unique = user_is_unique(request.form['username'].lower(), session)
+        json = request.get_json()
+        unique = user_is_unique(json['username'].lower(), session)
         if unique:
-            return "200"
-        return "412 - Not a unique username"
+                return jsonify({"status":"OK"})
+        return jsonify({"status":"NOT UNIQUE"})
 
     return "Error"
 
